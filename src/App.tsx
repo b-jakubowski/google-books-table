@@ -1,11 +1,14 @@
 import './App.css'
-import { Search } from './components'
+import { Content } from './components'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
-    <>
-      <Search onSearchClick={(val) => console.log('+++++ val', val)} />
-    </>
+    <QueryClientProvider client={queryClient}>
+      <Content />
+    </QueryClientProvider>
   )
 }
 
