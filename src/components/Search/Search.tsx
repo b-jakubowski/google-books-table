@@ -9,7 +9,7 @@ export const Search: FC<SearchProps> = ({ onSearchClick }) => {
   const [searchValue, setSearchValue] = useState('')
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', marginTop: 10 }}>
       <TextField
         label="Search for books"
         variant="outlined"
