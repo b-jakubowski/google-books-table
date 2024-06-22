@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { BookListTable, Search } from '../'
+import { BookListTable, Search, TableBreadcumbs } from '../'
 import { BookVolume } from '../../types'
-import { Box, Container } from '@mui/material'
+import { Box, Breadcrumbs, Container, Typography } from '@mui/material'
 import { BookDetailsTable } from '../BookDetailsTable/BookDetailsTable'
+import { useSearchParams } from 'react-router-dom'
 
 const volumeDetailsURL = `https://www.googleapis.com/books/v1/volumes/`
 const volumeListURL = `https://www.googleapis.com/books/v1/volumes?
@@ -21,15 +22,23 @@ const fetchVolumeDetails = (volumeId: string | null) =>
   fetch(`${volumeDetailsURL}${volumeId}`).then((res) => res.json())
 
 export const Content = () => {
-  const [searchQuery, setSearchQuery] = useState<string | null>(null)
-  const [bookDetailsId, setBookDetailsId] = useState<string | null>(null)
+  const [bookDetailsTitle, setBookDetailsTitle] = useState<string | null>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const { isPending, fetchStatus, error, data } = useQuery<{
+  const searchParam = searchParams.get('search')
+  const detailsParam = searchParams.get('details')
+
+  const {
+    isPending,
+    fetchStatus,
+    error,
+    data: bookList,
+  } = useQuery<{
     items: BookVolume[]
   }>({
-    queryKey: ['bookVolumesSearch', searchQuery],
-    queryFn: () => fetchVolumeList(searchQuery),
-    enabled: !!searchQuery,
+    queryKey: ['bookVolumesSearch', searchParam],
+    queryFn: () => fetchVolumeList(searchParam),
+    enabled: !!searchParam,
   })
 
   const {
@@ -37,18 +46,24 @@ export const Content = () => {
     error: bookDetailsError,
     data: bookDetails,
   } = useQuery<BookVolume>({
-    queryKey: ['bookDetails', bookDetailsId],
-    queryFn: () => fetchVolumeDetails(bookDetailsId),
-    enabled: !!bookDetailsId,
+    queryKey: ['bookDetails', detailsParam],
+    queryFn: () => fetchVolumeDetails(detailsParam),
+    enabled: !!detailsParam,
   })
-
-  const books = data?.items
 
   return (
     <Container maxWidth="xl">
-      <Box sx={{ height: '100vh', padding: 5 }}>
-        <Search onSearchClick={setSearchQuery} />
-        {bookDetailsId ? (
+      <Box paddingX={5}>
+        <Search
+          onSearchClick={(seachQuery) => {
+            setSearchParams((prev) => {
+              prev.set('search', seachQuery)
+              return prev
+            })
+          }}
+        />
+        <TableBreadcumbs bookTitle={bookDetailsTitle} />
+        {detailsParam ? (
           <BookDetailsTable
             bookDetails={bookDetails}
             isPending={isBookDetailsPending}
@@ -56,10 +71,17 @@ export const Content = () => {
           />
         ) : (
           <BookListTable
-            bookList={books}
+            bookList={bookList?.items}
             isError={!!error}
             isPending={isPending && fetchStatus !== 'idle'}
-            onRowClick={setBookDetailsId}
+            onRowClick={(id, bookTitle) => {
+              setBookDetailsTitle(bookTitle)
+
+              setSearchParams((prev) => {
+                prev.set('details', id)
+                return prev
+              })
+            }}
           />
         )}
       </Box>

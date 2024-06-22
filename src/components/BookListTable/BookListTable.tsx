@@ -17,7 +17,7 @@ type BookListTableProps = {
   bookList?: BookVolume[]
   isPending: boolean
   isError: boolean
-  onRowClick: (id: string) => void
+  onRowClick: (id: string, title: string) => void
 }
 
 export const BookListTable: FC<BookListTableProps> = ({
@@ -58,7 +58,7 @@ export const BookListTable: FC<BookListTableProps> = ({
             <BookListTableRow
               key={book.id}
               book={book}
-              onRowClick={() => onRowClick(book.id)}
+              onRowClick={onRowClick}
             />
           ))}
         </TableBody>

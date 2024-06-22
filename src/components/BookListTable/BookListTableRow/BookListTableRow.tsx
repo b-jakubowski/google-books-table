@@ -4,7 +4,7 @@ import { BookVolume } from '../../../types'
 
 type BookListTableRowProps = {
   book: BookVolume
-  onRowClick: (id: string) => void
+  onRowClick: (id: string, title: string) => void
 }
 
 export const BookListTableRow: FC<BookListTableRowProps> = ({
@@ -15,7 +15,7 @@ export const BookListTableRow: FC<BookListTableRowProps> = ({
   const authors = volumeInfo?.authors ? volumeInfo?.authors.join(', ') : '-'
 
   return (
-    <TableRow hover onClick={() => onRowClick(id)}>
+    <TableRow hover onClick={() => onRowClick(id, volumeInfo.title)}>
       <TableCell>{id}</TableCell>
       <TableCell>
         <Typography fontWeight={500}>{volumeInfo.title}</Typography>
