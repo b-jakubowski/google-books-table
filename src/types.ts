@@ -6,12 +6,19 @@ export type BookVolume = {
     title: string
     authors: string[]
     publishedDate: string
+    description: string
     pageCount: number
-    saleInfo: {
-      listPrice: {
-        amount: number
-        currencyCode: string
-      }
+    categories: string[]
+    averageRating: number
+    imageLinks: {
+      smallThumbnail: string
+    }
+  }
+  saleInfo: {
+    buyLink: string
+    listPrice: {
+      amount: number
+      currencyCode: string
     }
   }
 }
