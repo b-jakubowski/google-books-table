@@ -22,3 +22,9 @@ export type BookVolume = {
     }
   }
 }
+
+export enum SearchParamKey {
+  SEARCH = 'search',
+  DETAILS = 'details',
+  DETAILS_TITLE = 'detailsTitle',
+}

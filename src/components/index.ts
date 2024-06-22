@@ -1,5 +1,6 @@
 export { Search } from './Search/Search'
 export { Content } from './Content/Content'
 export { BookListTable } from './BookListTable/BookListTable'
+export { BookDetailsTable } from './BookDetailsTable/BookDetailsTable'
 export { TableSkeleton } from './TableSkeleton/TableSkeleton'
 export { TableBreadcumbs } from './TableBreadcumbs/TableBreadcumbs'

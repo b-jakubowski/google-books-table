@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
+import { FetchStatus } from '@tanstack/react-query'
 import { TableSkeleton } from '../'
 import { BookVolume } from '../../types'
 import { BookListTableRow } from './BookListTableRow/BookListTableRow'
@@ -17,6 +18,7 @@ type BookListTableProps = {
   bookList?: BookVolume[]
   isPending: boolean
   isError: boolean
+  searchStatus: FetchStatus
   onRowClick: (id: string, title: string) => void
 }
 
@@ -24,8 +26,17 @@ export const BookListTable: FC<BookListTableProps> = ({
   bookList,
   isError,
   isPending,
+  searchStatus,
   onRowClick,
 }) => {
+  if (searchStatus === 'idle') {
+    return (
+      <Typography variant="subtitle1" gutterBottom>
+        Please type a book title in input above
+      </Typography>
+    )
+  }
+
   if (isPending) {
     return <TableSkeleton numberOfRows={10} />
   }

@@ -1,16 +1,13 @@
 import { Breadcrumbs, Typography } from '@mui/material'
-import { FC } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { SearchParamKey } from '../../types'
 
-type TableBreadcumbsProps = {
-  bookTitle: string | null
-}
-
-export const TableBreadcumbs: FC<TableBreadcumbsProps> = ({ bookTitle }) => {
+export const TableBreadcumbs = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const searchParam = searchParams.get('search')
-  const detailsParam = searchParams.get('details')
+  const searchParam = searchParams.get(SearchParamKey.SEARCH)
+  const detailsParam = searchParams.get(SearchParamKey.DETAILS)
+  const detailsTitleParam = searchParams.get(SearchParamKey.DETAILS_TITLE)
 
   return (
     <Breadcrumbs aria-label="breadcrumb" sx={{ marginY: 5 }}>
@@ -18,20 +15,23 @@ export const TableBreadcumbs: FC<TableBreadcumbsProps> = ({ bookTitle }) => {
         sx={{ cursor: 'pointer' }}
         onClick={() =>
           setSearchParams((prev) => {
-            prev.delete('details')
-            prev.delete('search')
+            prev.delete(SearchParamKey.SEARCH)
+            prev.delete(SearchParamKey.DETAILS)
+            prev.delete(SearchParamKey.DETAILS_TITLE)
             return prev
           })
         }
       >
         Home
       </Typography>
+
       {searchParam && (
         <Typography
           sx={{ cursor: 'pointer' }}
           onClick={() =>
             setSearchParams((prev) => {
-              prev.delete('details')
+              prev.delete(SearchParamKey.DETAILS)
+              prev.delete(SearchParamKey.DETAILS_TITLE)
               return prev
             })
           }
@@ -39,8 +39,9 @@ export const TableBreadcumbs: FC<TableBreadcumbsProps> = ({ bookTitle }) => {
           Search: "{searchParam}"
         </Typography>
       )}
+
       {detailsParam && (
-        <Typography color="text.primary">{bookTitle}</Typography>
+        <Typography color="text.primary">{detailsTitleParam}</Typography>
       )}
     </Breadcrumbs>
   )
