@@ -3,12 +3,15 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Content } from './components'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Content />,
-  },
-])
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <Content />,
+    },
+  ],
+  { basename: '/google-books-table' }
+)
 
 const queryClient = new QueryClient()
 
