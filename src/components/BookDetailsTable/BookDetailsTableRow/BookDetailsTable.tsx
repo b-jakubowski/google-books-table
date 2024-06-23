@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { Link, TableCell, TableRow, Typography } from '@mui/material'
+import { Button, TableCell, TableRow, Typography } from '@mui/material'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import { BookVolume } from '../../../types'
 
 type BooksTableProps = {
@@ -9,13 +10,13 @@ type BooksTableProps = {
 export const BookDetailsTableRow: FC<BooksTableProps> = ({ bookDetails }) => {
   const { volumeInfo, saleInfo } = bookDetails
 
+  const authors = volumeInfo?.authors ? volumeInfo?.authors.join(', ') : '-'
   const categories = volumeInfo?.categories
     ? volumeInfo?.categories.join(', ')
     : '-'
-  const authors = volumeInfo?.authors ? volumeInfo?.authors.join(', ') : '-'
 
   return (
-    <TableRow>
+    <TableRow style={{ verticalAlign: 'top' }}>
       <TableCell>
         <Typography fontWeight={600}>{volumeInfo.title}</Typography>
         <Typography>{`${authors}`}</Typography>
@@ -33,12 +34,16 @@ export const BookDetailsTableRow: FC<BooksTableProps> = ({ bookDetails }) => {
           }}
         />
       </TableCell>
-      <TableCell size="small">{categories}</TableCell>
-      <TableCell>
-        <Link href={saleInfo.buyLink}>
-          buy for{' '}
+      <TableCell>{categories}</TableCell>
+      <TableCell width={25}>
+        <Button
+          variant="outlined"
+          target="_blank"
+          startIcon={<AddShoppingCartIcon />}
+          href={saleInfo.buyLink}
+        >
           {`${saleInfo.listPrice.amount} ${saleInfo.listPrice.currencyCode}`}
-        </Link>
+        </Button>
       </TableCell>
     </TableRow>
   )

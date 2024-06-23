@@ -13,7 +13,6 @@ export const Content = () => {
     isBookDetailsPending,
     bookDetailsError,
     bookDetails,
-    searchStatus,
     isBookListPending,
     isBookListError,
     bookList,
@@ -28,7 +27,7 @@ export const Content = () => {
 
   return (
     <Container maxWidth="xl">
-      <Box paddingX={5}>
+      <Box sx={{ px: { xs: 1, md: 5, lg: 6 } }}>
         <Search
           onSearchClick={(seachQuery) =>
             setParams(SearchParamKey.SEARCH, seachQuery)
@@ -44,7 +43,7 @@ export const Content = () => {
         ) : (
           <BookListTable
             bookList={bookList?.items}
-            searchStatus={searchStatus}
+            searchInitialized={!!searchParam}
             isError={!!isBookListError}
             isPending={isBookListPending}
             onRowClick={(id, bookTitle) => {

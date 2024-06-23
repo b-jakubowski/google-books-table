@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import {
+  Box,
   Paper,
   Table,
   TableBody,
@@ -9,7 +10,8 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
-import { FetchStatus } from '@tanstack/react-query'
+import InfoIcon from '@mui/icons-material/Info'
+import SearchIcon from '@mui/icons-material/Search'
 import { TableSkeleton } from '../'
 import { BookVolume } from '../../types'
 import { BookListTableRow } from './BookListTableRow/BookListTableRow'
@@ -18,7 +20,7 @@ type BookListTableProps = {
   bookList?: BookVolume[]
   isPending: boolean
   isError: boolean
-  searchStatus: FetchStatus
+  searchInitialized: boolean
   onRowClick: (id: string, title: string) => void
 }
 
@@ -26,14 +28,17 @@ export const BookListTable: FC<BookListTableProps> = ({
   bookList,
   isError,
   isPending,
-  searchStatus,
+  searchInitialized,
   onRowClick,
 }) => {
-  if (searchStatus === 'idle' && !bookList) {
+  if (!searchInitialized) {
     return (
-      <Typography variant="subtitle1" gutterBottom>
-        Please type a book title in input above
-      </Typography>
+      <Box display="flex" alignItems="center">
+        <InfoIcon fontSize="large" color="info" />
+        <Typography variant="subtitle1" ml={1}>
+          Please type a book title in input above
+        </Typography>
+      </Box>
     )
   }
 
@@ -46,6 +51,17 @@ export const BookListTable: FC<BookListTableProps> = ({
       <Typography variant="subtitle1" gutterBottom>
         Search error
       </Typography>
+    )
+  }
+
+  if (!bookList) {
+    return (
+      <Box display="flex" alignItems="center">
+        <SearchIcon fontSize="large" color="info" />
+        <Typography variant="subtitle1" ml={1}>
+          No books found
+        </Typography>
+      </Box>
     )
   }
 
@@ -65,9 +81,10 @@ export const BookListTable: FC<BookListTableProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {bookList.map((book) => (
+          {bookList.map((book, index) => (
             <BookListTableRow
               key={book.id}
+              index={index + 1}
               book={book}
               onRowClick={onRowClick}
             />

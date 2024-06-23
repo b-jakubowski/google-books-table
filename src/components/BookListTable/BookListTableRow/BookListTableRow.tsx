@@ -4,11 +4,13 @@ import { BookVolume } from '../../../types'
 
 type BookListTableRowProps = {
   book: BookVolume
+  index: number
   onRowClick: (id: string, title: string) => void
 }
 
 export const BookListTableRow: FC<BookListTableRowProps> = ({
   book,
+  index,
   onRowClick,
 }) => {
   const { id, volumeInfo } = book
@@ -16,7 +18,7 @@ export const BookListTableRow: FC<BookListTableRowProps> = ({
 
   return (
     <TableRow hover onClick={() => onRowClick(id, volumeInfo.title)}>
-      <TableCell>{id}</TableCell>
+      <TableCell>{index}</TableCell>
       <TableCell>
         <Typography fontWeight={500}>{volumeInfo.title}</Typography>
       </TableCell>
