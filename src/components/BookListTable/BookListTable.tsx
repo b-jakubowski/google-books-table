@@ -29,7 +29,7 @@ export const BookListTable: FC<BookListTableProps> = ({
   searchStatus,
   onRowClick,
 }) => {
-  if (searchStatus === 'idle') {
+  if (searchStatus === 'idle' && !bookList) {
     return (
       <Typography variant="subtitle1" gutterBottom>
         Please type a book title in input above
