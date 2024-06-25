@@ -25,14 +25,20 @@ export const Content = () => {
     })
   }
 
+  const handleSearchPress = (searchQuery: string) => {
+    setSearchParams((prev) => {
+      prev.delete(SearchParamKey.SEARCH)
+      prev.delete(SearchParamKey.DETAILS)
+      prev.delete(SearchParamKey.DETAILS_TITLE)
+      prev.set(SearchParamKey.SEARCH, searchQuery)
+      return prev
+    })
+  }
+
   return (
     <Container maxWidth="xl">
       <Box sx={{ px: { xs: 1, md: 5, lg: 6 } }}>
-        <Search
-          onSearchClick={(seachQuery) =>
-            setParams(SearchParamKey.SEARCH, seachQuery)
-          }
-        />
+        <Search onSearchClick={handleSearchPress} />
         <TableBreadcumbs />
         {detailsParam ? (
           <BookDetailsTable
