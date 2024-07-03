@@ -1,6 +1,11 @@
 import { Box, Container } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
-import { BookListTable, BookDetailsTable, Search, TableBreadcumbs } from '../'
+import {
+  BookListTable,
+  BookDetailsTable,
+  Search,
+  TableBreadcumbs,
+} from '../../components'
 import { useFetchBooks } from './useFetchBooks'
 import { SearchParamKey } from '../../types'
 

@@ -1,6 +1,6 @@
 import { CssBaseline } from '@mui/material'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Content } from './components'
+import { Content, ErrorPage } from './pages'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter(
@@ -8,9 +8,10 @@ const router = createBrowserRouter(
     {
       path: '/',
       element: <Content />,
+      errorElement: <ErrorPage />,
     },
   ],
-  { basename: '/google-books-table' }
+  { basename: '/google-books-table/' }
 )
 
 const queryClient = new QueryClient()
